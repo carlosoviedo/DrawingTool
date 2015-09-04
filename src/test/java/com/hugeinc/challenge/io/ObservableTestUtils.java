@@ -15,6 +15,11 @@ import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Optional;
 
+/**
+ * Common methods used by the different observable tests.
+ *
+ * @author <a href="mailto:carlos.oviedo@gmail.com">Carlos Oviedo</a>
+ */
 final class ObservableTestUtils {
 	public static final String[] _validInputExpressions;
 	public static final TestCommand[] _validInputCommands;
