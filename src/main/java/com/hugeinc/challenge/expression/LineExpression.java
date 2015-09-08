@@ -27,6 +27,10 @@ public class LineExpression implements DrawingExpression {
 	private Point begin;
 	private Point end;
 	
+	static LineExpression createFrom(Point begin, Point end) {
+		return new LineExpression(begin, end);
+	}
+	
 	private static Point getBegin(String[] individualArguments) {
 		return Point.doCreatePoint(individualArguments, 2);
 	}
@@ -37,8 +41,16 @@ public class LineExpression implements DrawingExpression {
 	
 	public LineExpression(String arguments) {
 		String[] individualArguments = ExpressionUtils.splitArguments(arguments);
+		
 		begin = getBegin(individualArguments);
 		end = getEnd(individualArguments);
+		
+		checkState();
+	}
+	
+	private LineExpression(Point begin, Point end) {
+		this.begin = Point.clonePoint(begin);
+		this.end = Point.clonePoint(end);
 		
 		checkState();
 	}

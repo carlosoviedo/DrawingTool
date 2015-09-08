@@ -1,5 +1,7 @@
 package com.hugeinc.challenge.expression;
 
+import java.util.Arrays;
+
 import com.hugeinc.challenge.model.Canvas;
 
 /**
@@ -22,15 +24,30 @@ import com.hugeinc.challenge.model.Canvas;
 public class RectangleExpression extends LineExpression {
 	private static final RectangleExpressionPolicy _policy = new RectangleExpressionPolicy();
 	
+	private static LineExpression[] getLines(Point begin, Point end) {
+		LineExpression[] lines = new LineExpression[4];
+		Point upperLeftCorner = begin,
+				lowerLeftCorner = new Point(begin.getX(), end.getY()),
+				upperRightCorner = new Point(end.getX(), begin.getY()),
+				lowerRightCorner = end;
+		lines[0] = LineExpression.createFrom(upperLeftCorner, upperRightCorner);
+		lines[1] = LineExpression.createFrom(lowerLeftCorner, lowerRightCorner);
+		lines[2] = LineExpression.createFrom(upperLeftCorner, lowerLeftCorner);
+		lines[3] = LineExpression.createFrom(upperRightCorner, lowerRightCorner);
+		return lines;
+	}
+	
 	public RectangleExpression(String arguments) {
 		super(arguments);
 	}
 	
 	@Override
 	public void interpret(Canvas canvas) {
-		System.out.println("RECTANGLE: " + toString());
+		Arrays
+			.stream(getLines(getBegin(), getEnd()))
+			.forEach(lineExpression -> lineExpression.interpret(canvas));
 	}
-	
+
 	@Override
 	protected void checkState() {
 		_policy.check(this);   
