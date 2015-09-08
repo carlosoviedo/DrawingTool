@@ -13,6 +13,8 @@ package com.hugeinc.challenge.expression;
  * @author <a href="mailto:carlos.oviedo@gmail.com">Carlos Oviedo</a>
  */
 public class Point implements DrawingExpression, Cloneable  {
+	private static final PointPolicy _policy = new PointPolicy();
+	
 	private int x;
 	private int y;
 	
@@ -72,13 +74,13 @@ public class Point implements DrawingExpression, Cloneable  {
 	
 	@Override
 	public String toString() {
-		return String.format("{x: %d, y:%d}", x, y);
+		return String.format("{x: %d, y: %d}", x, y);
 	}
 	
 	/**
 	 * Allows for validation algorithm to be extended.
 	 */
 	protected void checkState() {
-		PointPolicy.getInstance().check(this);
+		_policy.check(this);
 	}
 }

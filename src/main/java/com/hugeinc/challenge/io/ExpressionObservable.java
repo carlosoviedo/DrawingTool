@@ -1,4 +1,4 @@
-package com.hugeinc.challenge.input;
+package com.hugeinc.challenge.io;
 
 import java.io.BufferedReader;
 import java.util.stream.Stream;

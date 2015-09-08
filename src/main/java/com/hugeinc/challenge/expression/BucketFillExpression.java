@@ -14,6 +14,8 @@ package com.hugeinc.challenge.expression;
  * @author <a href="mailto:carlos.oviedo@gmail.com">Carlos Oviedo</a>
  */
 public class BucketFillExpression implements DrawingExpression {
+	private static final BucketFillExpressionPolicy _policy = new BucketFillExpressionPolicy();
+	
 	private Point connectionPoint;
 	private char color;
 	
@@ -27,15 +29,24 @@ public class BucketFillExpression implements DrawingExpression {
 
 	@Override
 	public void interpret(Canvas canvas) {
-		// TODO Auto-generated method stub
+		System.out.println("BUCKET FILL: " + toString());
 	}
 	
 	public Point getConnectionPoint() {
 		return Point.clonePoint(connectionPoint);
 	}
 	
+	public char getColor() {
+		return color;
+	}
+	
+	@Override
+	public String toString() {
+		return String.format("{connectionPoint: %s}", connectionPoint);
+	}
+	
 	protected void checkState() {
-		
+		_policy.check(this);
 	}
 	
 	private Point getConnectionPoint(String[] individualArguments) {

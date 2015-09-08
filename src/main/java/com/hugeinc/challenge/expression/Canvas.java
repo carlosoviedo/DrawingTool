@@ -8,5 +8,8 @@ package com.hugeinc.challenge.expression;
  * @author <a href="mailto:carlos.oviedo@gmail.com">Carlos Oviedo</a>
  */
 public class Canvas {
-
+	@Override
+	public String toString() {
+		return "CANVAS: {}";
+	}
 }

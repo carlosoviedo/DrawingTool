@@ -3,7 +3,7 @@ package com.hugeinc.challenge.io;
 import java.io.BufferedReader;
 import java.io.Reader;
 
-import com.hugeinc.challenge.input.ExpressionObservable;
+import com.hugeinc.challenge.io.ExpressionObservable;
 
 import rx.Observable;
 

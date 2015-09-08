@@ -6,5 +6,5 @@ package com.hugeinc.challenge.core;
  * @author <a href="mailto:carlos.oviedo@gmail.com">Carlos Oviedo</a>
  */
 public enum LoggerNames {
-	ERROR
+	APPLICATION, ERROR
 }

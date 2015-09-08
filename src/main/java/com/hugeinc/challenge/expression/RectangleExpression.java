@@ -18,12 +18,19 @@ package com.hugeinc.challenge.expression;
  * @author <a href="mailto:carlos.oviedo@gmail.com">Carlos Oviedo</a>
  */
 public class RectangleExpression extends LineExpression {
+	private static final RectangleExpressionPolicy _policy = new RectangleExpressionPolicy();
+	
 	public RectangleExpression(String arguments) {
 		super(arguments);
 	}
 	
 	@Override
+	public void interpret(Canvas canvas) {
+		System.out.println("RECTANGLE: " + toString());
+	}
+	
+	@Override
 	protected void checkState() {
-		RectangleExpressionPolicy.getInstance().check(this);   
+		_policy.check(this);   
 	}
 }

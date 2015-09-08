@@ -12,6 +12,7 @@ import rx.functions.Func0;
 import com.google.common.base.Optional;
 import com.hugeinc.challenge.expression.Canvas;
 import com.hugeinc.challenge.expression.DrawingExpression;
+import com.hugeinc.challenge.io.ResourceLoader;
 
 /**
  * <p>
@@ -23,6 +24,7 @@ import com.hugeinc.challenge.expression.DrawingExpression;
  * 
  * <ul>
  * 	<li><b>com.hugeinc.challenge.Canvas</b></li>
+ * 	<li><b>com.hugeinc.challenge.io.ResourceLoader</b></li>
  * 	<li><b>com.hugeinc.challenge.Expression.C</b> (for line canvas commands)</li>
  * 	<li><b>com.hugeinc.challenge.Expression.L</b> (for line commands)</li>
  * 	<li><b>com.hugeinc.challenge.Expression.R</b> (for rectangle commands)</li>
@@ -46,8 +48,8 @@ public class ObjectFactory {
 	private static final Logger _logger = LoggerFactory.getLogger(LoggerNames.ERROR.name());
 	
 	private static final String CANVAS_IMPLEMENTATION = "com.hugeinc.challenge.Canvas";
-	
 	private static final String EXPRESSION_IMPLEMENTATION = "com.hugeinc.challenge.Expression.";
+	private static final String RESOURCE_LOADER = "com.hugeinc.challenge.io.ResourceLoader";
 	
 	private final Properties configuration;
 	
@@ -88,6 +90,10 @@ public class ObjectFactory {
 	public DrawingExpression createExpression(String drawingCommand, Optional<String> commandArgs) {
 		if (commandArgs.isPresent()) return createImplementationFor(EXPRESSION_IMPLEMENTATION + drawingCommand, DrawingExpression.class, commandArgs.get());
 		return createImplementationFor(EXPRESSION_IMPLEMENTATION + drawingCommand, DrawingExpression.class);
+	}
+	
+	public ResourceLoader createResourceLoader() {
+		return createImplementationFor(RESOURCE_LOADER, ResourceLoader.class);
 	}
 
 	/**

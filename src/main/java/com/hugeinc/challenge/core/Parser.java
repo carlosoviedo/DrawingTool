@@ -1,8 +1,5 @@
 package com.hugeinc.challenge.core;
 
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
-
 import com.google.common.base.Optional;
 import com.hugeinc.challenge.expression.DrawingExpression;
 
@@ -14,24 +11,10 @@ import com.hugeinc.challenge.expression.DrawingExpression;
  * <b>L</b> <code>1 2 6 2</code>.
  * </p>
  * 
- * <p>
- * This class is a singleton.
- * </p>
  * @author <a href="mailto:carlos.oviedo@gmail.com">Carlos Oviedo</a>
  */
-final class Parser {
-	private static Parser _instance;
-	private static final Lock _instanceLock = new ReentrantLock();
-	
-	static Parser getInstance() {
-		_instanceLock.lock();
-		if (_instance == null) _instance = new Parser();
-		_instanceLock.unlock();
-		
-		return _instance;
-	}
-	
-	ParseResult parseCommand(String command) {
+public final class Parser {
+	public ParseResult parse(String command) {
 		checkCommand(command);
 		return new ParseResult(getCommandName(command), getCommandArgs(command));
 	}
@@ -52,7 +35,7 @@ final class Parser {
 	 * Represents the result of parsing a drawing command string into its
 	 * corresponding command and arguments.
 	 */
-	static class ParseResult {
+	public static class ParseResult {
 		private char drawingCommand;
 		private Optional<String> commandArgs;
 		
@@ -65,11 +48,11 @@ final class Parser {
 			commandArgs = Optional.fromNullable(args);
 		}
 		
-		char getDrawingCommand() {
+		public char getDrawingCommand() {
 			return drawingCommand;
 		}
 		
-		Optional<String> getCommandArgs() {
+		public Optional<String> getCommandArgs() {
 			return commandArgs;
 		}
 	}

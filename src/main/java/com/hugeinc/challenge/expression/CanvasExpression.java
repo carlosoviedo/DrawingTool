@@ -15,6 +15,8 @@ package com.hugeinc.challenge.expression;
  * @author <a href="mailto:carlos.oviedo@gmail.com">Carlos Oviedo</a>
  */
 public class CanvasExpression implements DrawingExpression {
+	private static final CanvasExpressionPolicy _policy = new CanvasExpressionPolicy();
+	
 	private int width;
 	private int height;
 	
@@ -28,7 +30,7 @@ public class CanvasExpression implements DrawingExpression {
 
 	@Override
 	public void interpret(Canvas canvas) {
-		// TODO Auto-generated method stub
+		System.out.println("CANVAS: " + toString());
 	}
 	
 	public int getHeight() {
@@ -43,7 +45,7 @@ public class CanvasExpression implements DrawingExpression {
 	 * Allows for validation algorithm to be extended.
 	 */
 	protected void checkState() {
-		CanvasExpressionPolicy.getInstance().check(this);
+		_policy.check(this);
 	}
 
 	private int getWidth(String[] individualArguments) {

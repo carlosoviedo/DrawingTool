@@ -15,6 +15,8 @@ package com.hugeinc.challenge.expression;
  * @author <a href="mailto:carlos.oviedo@gmail.com">Carlos Oviedo</a>
  */
 public class LineExpression implements DrawingExpression {
+	private static final LineExpressionPolicy _policy = new LineExpressionPolicy();
+	
 	private Point begin;
 	private Point end;
 	
@@ -36,7 +38,7 @@ public class LineExpression implements DrawingExpression {
 	
 	@Override
 	public void interpret(Canvas canvas) {
-		// TODO Auto-generated method stub
+		System.out.println("LINE: " + toString());
 	}
 	
 	/**
@@ -69,10 +71,10 @@ public class LineExpression implements DrawingExpression {
 	
 	@Override
 	public String toString() {
-		return String.format("{origin: %s, end: %s}", begin, end);
+		return String.format("{begin: %s, end: %s}", begin, end);
 	}
 	
 	protected void checkState() {
-		LineExpressionPolicy.getInstance().check(this);
+		_policy.check(this);
 	}
 }
