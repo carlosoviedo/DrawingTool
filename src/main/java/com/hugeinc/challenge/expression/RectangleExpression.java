@@ -1,5 +1,7 @@
 package com.hugeinc.challenge.expression;
 
+import com.hugeinc.challenge.model.Canvas;
+
 /**
  * Represents an expression of the form <pre>R x1 y1 x2 y2</pre>. This class makes the following 
  * validations regarding its arguments:

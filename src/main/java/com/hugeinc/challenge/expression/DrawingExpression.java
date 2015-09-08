@@ -1,5 +1,7 @@
 package com.hugeinc.challenge.expression;
 
+import com.hugeinc.challenge.model.Canvas;
+
 /**
  * Interface to be implemented by all expressions that interpret commands that
  * draw on a canvas.

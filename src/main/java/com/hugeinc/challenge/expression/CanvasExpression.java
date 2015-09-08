@@ -1,5 +1,7 @@
 package com.hugeinc.challenge.expression;
 
+import com.hugeinc.challenge.model.Canvas;
+
 /**
  * Represents an expression of the form <pre>C w h</pre>. This class makes the following 
  * validations regarding its arguments:
@@ -30,7 +32,7 @@ public class CanvasExpression implements DrawingExpression {
 
 	@Override
 	public void interpret(Canvas canvas) {
-		System.out.println("CANVAS: " + toString());
+		canvas.init(width, height);
 	}
 	
 	public int getHeight() {

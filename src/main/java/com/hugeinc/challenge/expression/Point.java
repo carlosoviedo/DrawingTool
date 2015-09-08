@@ -1,5 +1,7 @@
 package com.hugeinc.challenge.expression;
 
+import com.hugeinc.challenge.model.Canvas;
+
 /**
  * Abstraction that represents a point in a cartesian plane. This class makes the following 
  * validations regarding its constructor arguments:

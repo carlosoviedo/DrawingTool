@@ -1,6 +1,9 @@
 package com.hugeinc.challenge.app;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Properties;
 
 import org.slf4j.Logger;
@@ -10,10 +13,10 @@ import com.google.common.base.Optional;
 import com.hugeinc.challenge.core.LoggerNames;
 import com.hugeinc.challenge.core.ObjectFactory;
 import com.hugeinc.challenge.core.Parser;
-import com.hugeinc.challenge.expression.Canvas;
 import com.hugeinc.challenge.expression.DrawingExpression;
 import com.hugeinc.challenge.io.ResourceLoader;
 import com.hugeinc.challenge.io.ResourceLoaderChain;
+import com.hugeinc.challenge.model.Canvas;
 
 /**
  *
@@ -43,6 +46,20 @@ public final class DrawingToolUtils {
 			_logger.error("Configured buffer size is not a number: " + configuration.getProperty(propertyName), e);
 			return defaultValue;
 		}
+	}
+	
+	static OutputStream getOutputstreamProperty(String propertyName, Properties configuration, OutputStream defaultValue) {
+		String fileName = configuration.getProperty(propertyName);
+		if (fileName != null) {
+			try {
+				return new FileOutputStream(fileName);
+			} 
+			catch (FileNotFoundException e) {
+				_logger.warn("Unable to initialize output file: " + fileName + ". Output will be sent to console.", e);
+			}
+		}
+		else _logger.info("No output file configured. Output will be sent to console.");
+		return defaultValue;
 	}
 	
 	static DrawingExpression createExpression(Parser.ParseResult result, ObjectFactory factory) {

@@ -10,9 +10,9 @@ import org.slf4j.LoggerFactory;
 import rx.functions.Func0;
 
 import com.google.common.base.Optional;
-import com.hugeinc.challenge.expression.Canvas;
 import com.hugeinc.challenge.expression.DrawingExpression;
 import com.hugeinc.challenge.io.ResourceLoader;
+import com.hugeinc.challenge.model.Canvas;
 
 /**
  * <p>
