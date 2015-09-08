@@ -15,9 +15,11 @@ import java.util.Arrays;
 public class Canvas {
 	private static final String INIT_NOT_ALLOWED_ERROR = "Initialization not allowed: canvas already initialized";
 	private static final String DRAWING_NOT_ALLOWED_ERROR = "Drawing not allowed: canvas has not been initialized";
+	private static final String DRAWING_OUT_OF_CANVAS_ERROR = "Drawing outside of canvas";
 	
 	private static final char HORIZONTAL_BORDER = '-';
 	private static final char VERTICAL_BORDER = '|';
+	private static final char BLANK = ' ';
 	private enum State {CREATED, DRAWING}
 	
 	private State state = State.CREATED;
@@ -39,8 +41,17 @@ public class Canvas {
 
 	public void draw(int row, int from, int to, char character) {
 		checkState(State.DRAWING, DRAWING_NOT_ALLOWED_ERROR);
-		checkArguments(row, to);
+		checkLimitsWithinCanvas(row, to);
 		Arrays.fill(internalRepresentation[row], from, to+1, character);
+	}
+	
+	public boolean isBlank(int row, int column) {
+		checkDotWithinCanvas(row, column);
+		return internalRepresentation[column][row] == BLANK;
+	}
+	
+	public boolean isWithin(int row, int column) {
+		return !(isRowOutOfCanvas(row) || isColOutOfCanvas(column));
 	}
 
 	/**
@@ -65,7 +76,7 @@ public class Canvas {
 		Arrays.fill(internalRepresentation[height-1], HORIZONTAL_BORDER);
 		for (int i=1; i<height-1; i++) {
 			internalRepresentation[i][0] = internalRepresentation[i][width-1] = VERTICAL_BORDER;
-			Arrays.fill(internalRepresentation[i], 1, width-1, ' ');
+			Arrays.fill(internalRepresentation[i], 1, width-1, BLANK);
 		}
 	}
 
@@ -73,9 +84,13 @@ public class Canvas {
 		if (state != drawing) throw new IllegalStateException("Operation not allowed on canvas");
 	}
 	
-	private void checkArguments(int fromRow, int toRow) {
+	private void checkLimitsWithinCanvas(int fromRow, int toRow) {
 		if (fromRow > toRow) throw new IllegalArgumentException("Final row less than initial row");
-		if (isRowOutOfCanvas(fromRow) || isRowOutOfCanvas(toRow)) throw new IllegalArgumentException("Drawing outside of canvas");
+		if (isRowOutOfCanvas(fromRow) || isRowOutOfCanvas(toRow)) throw new IllegalArgumentException(DRAWING_OUT_OF_CANVAS_ERROR);
+	}
+	
+	private void checkDotWithinCanvas(int row, int column) {
+		if (isRowOutOfCanvas(row) || isColOutOfCanvas(column)) throw new IllegalArgumentException(DRAWING_OUT_OF_CANVAS_ERROR);	
 	}
 
 	private boolean isRowOutOfCanvas(int row) {

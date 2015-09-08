@@ -2,6 +2,10 @@ package com.hugeinc.challenge.expression;
 
 import java.util.Arrays;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.hugeinc.challenge.core.LoggerNames;
 import com.hugeinc.challenge.model.Canvas;
 
 /**
@@ -22,6 +26,7 @@ import com.hugeinc.challenge.model.Canvas;
  * @author <a href="mailto:carlos.oviedo@gmail.com">Carlos Oviedo</a>
  */
 public class RectangleExpression extends LineExpression {
+	private static final Logger _logger = LoggerFactory.getLogger(LoggerNames.APPLICATION.name());
 	private static final RectangleExpressionPolicy _policy = new RectangleExpressionPolicy();
 	
 	private static LineExpression[] getLines(Point begin, Point end) {
@@ -43,9 +48,14 @@ public class RectangleExpression extends LineExpression {
 	
 	@Override
 	public void interpret(Canvas canvas) {
-		Arrays
+		try {
+			Arrays
 			.stream(getLines(getBegin(), getEnd()))
 			.forEach(lineExpression -> lineExpression.interpret(canvas));
+		}
+		catch (IllegalStateException | IllegalArgumentException e) {
+			_logger.warn("RECTANGLE expression ignored: {} (Either out of canvas or canvas not initialized)", this);
+		}
 	}
 
 	@Override

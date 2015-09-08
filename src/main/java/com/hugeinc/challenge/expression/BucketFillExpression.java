@@ -1,5 +1,11 @@
 package com.hugeinc.challenge.expression;
 
+import java.util.Arrays;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.hugeinc.challenge.core.LoggerNames;
 import com.hugeinc.challenge.model.Canvas;
 
 /**
@@ -16,10 +22,29 @@ import com.hugeinc.challenge.model.Canvas;
  * @author <a href="mailto:carlos.oviedo@gmail.com">Carlos Oviedo</a>
  */
 public class BucketFillExpression implements DrawingExpression {
+	private static final Logger _logger = LoggerFactory.getLogger(LoggerNames.APPLICATION.name());
 	private static final BucketFillExpressionPolicy _policy = new BucketFillExpressionPolicy();
 	
 	private Point connectionPoint;
 	private char color;
+	
+	private static Point[] getSurroundingPoints(Point connectionPoint) {
+		int x = connectionPoint.getX(),
+			y = connectionPoint.getY();
+		Point upperLeft = new Point(x-1, y-1),
+				upperMiddle = new Point(x, y-1),
+				upperRight = new Point(x+1, y-1),
+				middleLeft = new Point(x-1, y),
+				middleRight = new Point(x+1, y),
+				lowerLeft = new Point(x-1, y+1),
+				lowerMiddle = new Point(x, y+1),
+				lowerRight = new Point(x+1, y+1);
+		return new Point[]{upperLeft, upperMiddle, upperRight, middleLeft, middleRight, lowerLeft, lowerMiddle, lowerRight};
+	}
+	
+	private static BucketFillExpression createFrom(Point connectionPoint, char color) {
+		return new BucketFillExpression(connectionPoint, color);
+	}
 	
 	public BucketFillExpression(String arguments) {
 		String[] individualArguments = ExpressionUtils.splitArguments(arguments);
@@ -29,11 +54,29 @@ public class BucketFillExpression implements DrawingExpression {
 		checkState();
 	}
 
+	private BucketFillExpression(Point connectionPoint, char color) {
+		this.connectionPoint = Point.clonePoint(connectionPoint);
+		this.color = color;
+	}
+
 	@Override
 	public void interpret(Canvas canvas) {
-		System.out.println("BUCKET FILL: " + toString());
+		try {
+			int row = connectionPoint.getX(),
+				column = connectionPoint.getY();
+				
+			if (canvas.isBlank(connectionPoint.getX(), connectionPoint.getY())) canvas.draw(column, row, row, color);
+			
+			Arrays.stream(getSurroundingPoints(connectionPoint))
+				.filter(point -> canvas.isWithin(point.getX(), point.getY()) && canvas.isBlank(point.getX(), point.getY()))
+				.parallel()
+				.forEach(point -> createFrom(point, color).interpret(canvas));
+		}
+		catch (IllegalStateException | IllegalArgumentException e) {
+			_logger.warn("BUCKET FILL expression ignored: {} (Either out of canvas or canvas not initialized)", this);
+		}
 	}
-	
+
 	public Point getConnectionPoint() {
 		return Point.clonePoint(connectionPoint);
 	}
