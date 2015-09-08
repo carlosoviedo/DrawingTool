@@ -1,5 +1,9 @@
 package com.hugeinc.challenge.expression;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.hugeinc.challenge.core.LoggerNames;
 import com.hugeinc.challenge.model.Canvas;
 
 /**
@@ -17,6 +21,7 @@ import com.hugeinc.challenge.model.Canvas;
  * @author <a href="mailto:carlos.oviedo@gmail.com">Carlos Oviedo</a>
  */
 public class CanvasExpression implements DrawingExpression {
+	private static final Logger _logger = LoggerFactory.getLogger(LoggerNames.APPLICATION.name());
 	private static final CanvasExpressionPolicy _policy = new CanvasExpressionPolicy();
 	
 	private int width;
@@ -32,7 +37,12 @@ public class CanvasExpression implements DrawingExpression {
 
 	@Override
 	public void interpret(Canvas canvas) {
-		canvas.init(width, height);
+		try {
+			canvas.init(width, height);
+		}
+		catch (IllegalStateException e) {
+			_logger.warn("CANVAS expression ignored: {} (Canvas already initialized)", this);
+		}
 	}
 	
 	public int getHeight() {

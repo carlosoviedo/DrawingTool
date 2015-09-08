@@ -9,5 +9,7 @@ import com.hugeinc.challenge.model.Canvas;
  * @author <a href="mailto:carlos.oviedo"></a>
  */
 public interface DrawingExpression {
+	char DEFAULT_CHAR = 'x';
+	
 	void interpret(Canvas canvas);
 }

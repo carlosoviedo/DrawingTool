@@ -1,5 +1,9 @@
 package com.hugeinc.challenge.expression;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.hugeinc.challenge.core.LoggerNames;
 import com.hugeinc.challenge.model.Canvas;
 
 
@@ -17,6 +21,7 @@ import com.hugeinc.challenge.model.Canvas;
  * @author <a href="mailto:carlos.oviedo@gmail.com">Carlos Oviedo</a>
  */
 public class LineExpression implements DrawingExpression {
+	private static final Logger _logger = LoggerFactory.getLogger(LoggerNames.APPLICATION.name());
 	private static final LineExpressionPolicy _policy = new LineExpressionPolicy();
 	
 	private Point begin;
@@ -40,7 +45,16 @@ public class LineExpression implements DrawingExpression {
 	
 	@Override
 	public void interpret(Canvas canvas) {
-		System.out.println("LINE: " + toString());
+		try {
+			if (isHorizontal()) canvas.draw(begin.getY(), begin.getX(), end.getX(), DEFAULT_CHAR);
+			else {
+				int column = begin.getX();
+				for (int row=begin.getY(); row<=end.getY(); row++) canvas.draw(row, column, column, DEFAULT_CHAR);
+			}
+		}
+		catch (IllegalStateException | IllegalArgumentException e) {
+			_logger.warn("LINE expression ignored: {} (Either out of canvas or canvas not initialized)", this);
+		}
 	}
 	
 	/**
