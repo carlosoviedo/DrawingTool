@@ -1,9 +1,11 @@
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'jacoco'
+apply plugin: 'application'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
+mainClassName = "com.hugeinc.challenge.app.DrawingTool"
 
 repositories {
     mavenCentral()
