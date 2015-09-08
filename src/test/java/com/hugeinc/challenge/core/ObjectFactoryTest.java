@@ -67,7 +67,7 @@ public class ObjectFactoryTest {
 	
 	private Properties mockNonEmptyConfiguration() {
 		Map<String, String> properties = new HashMap<>(2);
-		properties.put("com.hugeinc.challenge.Canvas", "com.hugeinc.challenge.expression.Canvas");
+		properties.put("com.hugeinc.challenge.Canvas", "com.hugeinc.challenge.model.Canvas");
 		return ObjectFactoryTestUtils.mockNonEmptyConfiguration(properties);
 	}
 }
